@@ -1,7 +1,7 @@
 {
-	"name": "obsidian-sample-plugin",
-	"version": "1.0.0",
-	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
+	"name": "enhanced-file-search",
+	"version": "0.1.0",
+	"description": "Enhanced file search.",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
@@ -9,16 +9,25 @@
 		"version": "node version-bump.mjs && git add manifest.json versions.json"
 	},
 	"keywords": [],
-	"author": "",
+	"author": "MizarZh",
 	"license": "MIT",
 	"devDependencies": {
+		"@codemirror/commands": "6.5.0",
+		"@codemirror/language": "^6.10.1",
+		"@codemirror/search": "6.5.6",
+		"@codemirror/state": "^6.4.1",
+		"@codemirror/view": "^6.26.3",
 		"@types/node": "^16.11.6",
 		"@typescript-eslint/eslint-plugin": "5.29.0",
 		"@typescript-eslint/parser": "5.29.0",
 		"builtin-modules": "3.3.0",
+		"codemirror": "^6.0.1",
 		"esbuild": "0.17.3",
 		"obsidian": "latest",
 		"tslib": "2.4.0",
 		"typescript": "4.7.4"
+	},
+	"dependencies": {
+		"crelt": "^1.0.6"
 	}
 }

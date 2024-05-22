@@ -6,3 +6,33 @@ available in the app when your plugin is enabled.
 If your plugin does not need CSS, delete this file.
 
 */
+/* .hightlight {
+	background-color: #f25252;
+} */
+
+.cm-search.cm-panel {
+	max-width: 700px;
+	margin-left: calc((100% - 700px) / 2);
+	box-sizing: border-box;
+	padding: 0 10px !important;
+}
+
+/* .cm-search.cm-panel button {
+	-webkit-app-region: no-drag;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--text-normal);
+	font-size: var(--font-ui-small);
+	border-radius: var(--button-radius);
+	border: 0;
+	padding: var(--size-4-1) var(--size-4-3);
+	height: var(--input-height);
+	font-weight: var(--input-font-weight);
+	cursor: var(--cursor);
+	font-family: inherit;
+	outline: none;
+	user-select: none;
+	white-space: nowrap;
+	background-image: none;
+} */
