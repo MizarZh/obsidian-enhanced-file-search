@@ -6,26 +6,30 @@ import {
 	DEFAULT_SETTINGS,
 	EnhancedFileSearchSettingsTab,
 } from "./settings";
+import { Extension } from "@codemirror/state";
 
 // Remember to rename these classes and interfaces!
 
 export default class EnhancedFileSearchPlugin extends Plugin {
+	private editorExtension: Extension[] = [];
 	settings: EnhancedFileSearchSettings;
 
 	async onload() {
 		await this.loadSettings();
 
-		this.registerEditorExtension(searchEditorExtension);
+		this.updateEditorExtension();
+		this.registerEditorExtension(this.editorExtension);
 
 		this.addSettingTab(new EnhancedFileSearchSettingsTab(this.app, this));
 
 		this.addCommand({
-			id: "open-sample-modal-simple",
-			name: "ASDF",
+			id: "enhanced-file-search",
+			name: "Enhanced file search",
 			editorCallback(editor, view) {
 				// @ts-expect-error, not typed
 				const editorView = view.editor.cm as EditorView;
 				openSearchPanel(editorView);
+				// remove default class of cm components
 				document.querySelectorAll(".cm-textfield").forEach((elem) => {
 					elem.removeClass("cm-textfield");
 				});
@@ -48,5 +52,16 @@ export default class EnhancedFileSearchPlugin extends Plugin {
 
 	async saveSettings() {
 		await this.saveData(this.settings);
+	}
+
+	createEditorExtension() {
+		return searchEditorExtension(this.settings.top);
+	}
+
+	updateEditorExtension() {
+		this.editorExtension.length = 0;
+		const newExtension = this.createEditorExtension();
+		this.editorExtension.push(newExtension);
+		this.app.workspace.updateOptions();
 	}
 }

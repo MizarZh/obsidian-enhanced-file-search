@@ -17,6 +17,19 @@ If your plugin does not need CSS, delete this file.
 	padding: 0 10px !important;
 }
 
+.cm-panels {
+	border: 0px !important;
+}
+
+/* .cm-search.cm-panel > input {
+	height: 100%;
+}
+
+.cm-search.cm-panel > label {
+	display: flex;
+	flex-direction: row;
+} */
+
 /* .cm-search.cm-panel button {
 	-webkit-app-region: no-drag;
 	display: inline-flex;
