@@ -2,12 +2,12 @@ import { search } from "@codemirror/search";
 // import { SearchPanel, searchExtensions } from "./panel";
 // import { EditorView } from "@codemirror/view";
 
-// export default [
+// export default (top: boolean) => [
 // 	search({
-// 		top: true,
-// 		// createPanel: (view: EditorView) => {
-// 		// 	return new SearchPanel(view);
-// 		// },
+// 		top,
+// 		createPanel: (view: EditorView) => {
+// 			return new SearchPanel(view);
+// 		},
 // 	}),
 // 	// ...searchExtensions,
 // ];

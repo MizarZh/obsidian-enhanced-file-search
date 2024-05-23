@@ -29,14 +29,6 @@ export default class EnhancedFileSearchPlugin extends Plugin {
 				// @ts-expect-error, not typed
 				const editorView = view.editor.cm as EditorView;
 				openSearchPanel(editorView);
-				// remove default class of cm components
-				document.querySelectorAll(".cm-textfield").forEach((elem) => {
-					elem.removeClass("cm-textfield");
-				});
-
-				document.querySelectorAll(".cm-button").forEach((elem) => {
-					elem.removeClass("cm-button");
-				});
 			},
 		});
 	}

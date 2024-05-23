@@ -6,9 +6,6 @@ available in the app when your plugin is enabled.
 If your plugin does not need CSS, delete this file.
 
 */
-/* .hightlight {
-	background-color: #f25252;
-} */
 
 .cm-search.cm-panel {
 	max-width: 700px;
@@ -21,16 +18,20 @@ If your plugin does not need CSS, delete this file.
 	border: 0px !important;
 }
 
-/* .cm-search.cm-panel > input {
-	height: 100%;
+.cm-search.cm-panel .cm-textfield {
+	width: calc(100% - 24px);
+	-webkit-app-region: no-drag;
+	background: var(--background-modifier-form-field);
+	border: var(--input-border-width) solid var(--background-modifier-border);
+	color: var(--text-normal);
+	font-family: inherit;
+	padding: var(--size-4-1) var(--size-4-2);
+	font-size: var(--font-ui-small);
+	border-radius: var(--input-radius);
+	outline: none;
 }
 
-.cm-search.cm-panel > label {
-	display: flex;
-	flex-direction: row;
-} */
-
-/* .cm-search.cm-panel button {
+.cm-search.cm-panel .cm-button {
 	-webkit-app-region: no-drag;
 	display: inline-flex;
 	align-items: center;
@@ -48,4 +49,27 @@ If your plugin does not need CSS, delete this file.
 	user-select: none;
 	white-space: nowrap;
 	background-image: none;
-} */
+	margin: 5px !important;
+}
+
+.cm-search.cm-panel button:last-of-type {
+	cursor: var(--cursor);
+	position: relative;
+	top: 2px;
+	font-size: 24px !important;
+	line-height: 20px;
+	height: 24px;
+	width: 24px;
+	padding: 0 var(--size-2-2);
+	border-radius: var(--radius-s);
+	color: var(--text-muted);
+	background: var(--background-modifier-form-field);
+}
+
+.cm-search.cm-panel label {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	height: var(--input-height);
+	margin: 5px !important;
+}
