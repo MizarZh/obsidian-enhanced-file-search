@@ -103,10 +103,22 @@ export class SearchPanel implements Panel {
 			},
 			[
 				this.searchField,
-				button("next", () => findNext(view), [phrase(view, "next")]),
-				button("prev", () => findPrevious(view), [
-					phrase(view, "previous"),
-				]),
+				button(
+					"next",
+					() => {
+						this.view.focus();
+						findNext(view);
+					},
+					[phrase(view, "next")]
+				),
+				button(
+					"prev",
+					() => {
+						this.view.focus();
+						findPrevious(view);
+					},
+					[phrase(view, "previous")]
+				),
 				// button("select", () => selectMatches(view), [
 				// 	phrase(view, "all"),
 				// ]),
@@ -151,7 +163,7 @@ export class SearchPanel implements Panel {
 			wholeWord: this.wordField.checked,
 			replace: this.replaceField.value,
 		});
-		if (!query.eq(this.query)) {
+		if (!query.eq(this.query) && query.search !== "" && query.valid) {
 			this.query = query;
 			this.view.dispatch({ effects: setSearchQuery.of(query) });
 			this.updateWordCount();
@@ -196,18 +208,22 @@ export class SearchPanel implements Panel {
 		const cursor = this.query.getCursor(this.view.state) as SearchCursor;
 		let matchesCount = 0,
 			currentPos = -1;
+		const ranges = this.view.state.selection.ranges;
 		// @ts-ignore
 		for (const selection of cursor) {
 			if (
 				currentPos === -1 &&
-				this.view.state.selection.ranges &&
-				this.view.state.selection.ranges[0].from === selection.from &&
-				this.view.state.selection.ranges[0].to === selection.to
+				ranges &&
+				ranges[0].from !== ranges[0].to &&
+				ranges[0].from === selection.from &&
+				ranges[0].to === selection.to
 			) {
 				currentPos = matchesCount;
 			}
+			// console.log(this.view.state.selection.ranges[0], selection);
 			matchesCount++;
 		}
+
 		this.wordCount.textContent = `Hits: ${
 			currentPos === -1 ? "?" : currentPos + 1
 		}/${matchesCount}`;
