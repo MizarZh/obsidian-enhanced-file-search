@@ -15,6 +15,7 @@ import {
 	replaceNext,
 	replaceAll,
 	closeSearchPanel,
+	SearchCursor,
 } from "@codemirror/search";
 
 // from https://github.com/codemirror/search/blob/main/src/search.ts
@@ -24,6 +25,7 @@ export class SearchPanel implements Panel {
 	caseField: HTMLInputElement;
 	reField: HTMLInputElement;
 	wordField: HTMLInputElement;
+	wordCount: HTMLDivElement;
 	dom: HTMLElement;
 	query: SearchQuery;
 	view: EditorView;
@@ -78,6 +80,9 @@ export class SearchPanel implements Panel {
 			checked: query.wholeWord,
 			onchange: this.commit,
 		}) as HTMLInputElement;
+		this.wordCount = elt("div", {
+			class: "hits-display",
+		}) as HTMLDivElement;
 
 		function button(
 			name: string,
@@ -102,15 +107,16 @@ export class SearchPanel implements Panel {
 				button("prev", () => findPrevious(view), [
 					phrase(view, "previous"),
 				]),
-				button("select", () => selectMatches(view), [
-					phrase(view, "all"),
-				]),
+				// button("select", () => selectMatches(view), [
+				// 	phrase(view, "all"),
+				// ]),
 				elt("label", null, [
 					this.caseField,
 					phrase(view, "match case"),
 				]),
 				elt("label", null, [this.reField, phrase(view, "regexp")]),
 				elt("label", null, [this.wordField, phrase(view, "by word")]),
+				this.wordCount,
 				...(view.state.readOnly
 					? []
 					: [
@@ -148,6 +154,7 @@ export class SearchPanel implements Panel {
 		if (!query.eq(this.query)) {
 			this.query = query;
 			this.view.dispatch({ effects: setSearchQuery.of(query) });
+			this.updateWordCount();
 		}
 	}
 
@@ -169,6 +176,7 @@ export class SearchPanel implements Panel {
 				if (effect.is(setSearchQuery) && !effect.value.eq(this.query))
 					this.setQuery(effect.value);
 			}
+		this.updateWordCount();
 	}
 
 	setQuery(query: SearchQuery) {
@@ -182,6 +190,27 @@ export class SearchPanel implements Panel {
 
 	mount() {
 		this.searchField.select();
+	}
+
+	updateWordCount() {
+		const cursor = this.query.getCursor(this.view.state) as SearchCursor;
+		let matchesCount = 0,
+			currentPos = -1;
+		// @ts-ignore
+		for (const selection of cursor) {
+			if (
+				currentPos === -1 &&
+				this.view.state.selection.ranges &&
+				this.view.state.selection.ranges[0].from === selection.from &&
+				this.view.state.selection.ranges[0].to === selection.to
+			) {
+				currentPos = matchesCount;
+			}
+			matchesCount++;
+		}
+		this.wordCount.textContent = `Hits: ${
+			currentPos === -1 ? "?" : currentPos + 1
+		}/${matchesCount}`;
 	}
 
 	get pos() {
